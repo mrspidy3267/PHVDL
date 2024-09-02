@@ -39,9 +39,10 @@ async def main():
         if os.path.isfile("links.txt"):
              with open("links.txt") as file:
                   urls = file.readlines()
-                  for video_url in video_urls:
-                       urls = extract_urls(video_url)
-                       video_urls.append(urls)
+                  logging.info(urls)
+                  for video_url in urls:
+                       url = extract_urls(video_url)
+                       video_urls.append(url)
                        if len(video_urls) >= 100:
                             break  
         else:
