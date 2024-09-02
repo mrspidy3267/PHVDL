@@ -36,7 +36,7 @@ app = Client("SpidyPHVDL", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN
 async def main():
     async with app:
         video_urls = []
-        if not os.path.exists("links.txt"):
+        if os.path.isfile("links.txt"):
              with open("links.txt") as file:
                   urls = file.readlines()
                   for video_url in video_urls:
