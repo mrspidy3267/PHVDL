@@ -52,6 +52,7 @@ async def main():
         uploading = []
         await app.send_message(LOG_ID,f"Total Videos {len(video_urls)}")
         for video_url in video_urls:
+            logging.info(video_url)
             video_hash = hash(video_url)
             download_dir = f'downloads/{video_hash}'
             if not os.path.exists(download_dir):
