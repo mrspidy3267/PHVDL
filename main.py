@@ -19,7 +19,7 @@ logging.basicConfig(
 )
 
 db = connect_to_supabase()
-TABLE_NAME = TABLE_NAME
+table_name = TABLE_NAME
 
 
 static_ffmpeg.add_paths()
