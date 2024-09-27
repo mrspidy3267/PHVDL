@@ -34,6 +34,7 @@ app = Client("SpidyPHVDL", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN
 
 async def main():
     async with app:
+        logging.info("Bot Started")
         video_urls = []
         video_urls = get_link(db,table_name)
         video_urls = video_urls[:100]
