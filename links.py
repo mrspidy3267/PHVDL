@@ -115,7 +115,6 @@ def read_file_links():
 def get_link(db=None, collection_name=None):
     try:
         urls = []
-        print(read_file_links())
         for ph in fetch_models():
             print(ph)
             urls.extend(extract_urls(ph))
