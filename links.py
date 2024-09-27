@@ -125,10 +125,14 @@ def get_link(db=None, collection_name=None):
         urls = []
         for ph in fetch_models():
             print(ph)
-            urls.extend(extract_urls(ph))
-        urls.extend(fetch_video_links())
-        print(urls)
+            phs = extract_urls(ph)
+            print(phs)
+            urls.extend(phs)
+        phs = fetch_video_links()
+        print(phs)
+        urls.extend(phs)
         length = len(urls)
+        print(length)
         if db is not None:
             data = get_raw_url(db, collection_name)
             urls = [url for url in urls if url not in data]
