@@ -49,7 +49,6 @@ async def main():
 
         video_urls = video_urls[:100]
         uploading = []
-        await app.send_message(LOG_ID,f"Total Videos {len(video_urls)}")
         for video_url in video_urls:
             logging.info(video_url)
             video_hash = hash(video_url)
@@ -74,6 +73,7 @@ async def main():
                             thumbnail_path = os.path.join(root, file)
                         if exact_file_path and thumbnail_path and exact_file_path.split("/", 2)[-1] not in [uploads[0] for uploads in uploading]:
                                         uploading.append([exact_file_path.split("/", 2)[-1],video_url])
+                                        await app.send_photo(LOG_ID,photo=thumbnail_path,caption= f"{video_url} is getting Uploaded")
                                         video = await upload_video(app, DRIVE_ID, exact_file_path, thumbnail_path)
                                         result = {
                                             "URL": video_url,
