@@ -46,7 +46,7 @@ def extract_urls(url):
 
 
 
-def :
+def fetch_models():
     try:
         url = ["https://www.pornhub.com/pornstars?performerType=amateur#subFilterListVideos","https://www.pornhub.com/pornstars?o=mp&t=a&gender=female&performerType=amateur",'https://www.pornhub.com/pornstars?o=t#subFilterListVideos',"https://www.pornhub.com/pornstars?gender=female&performerType=amateur","https://www.pornhub.com/pornstars?gender=female","https://www.pornhub.com/pornstars?gender=female&performerType=pornstar","https://www.pornhub.com/pornstars?o=mv&performerType=pornstar#subFilterListVideos","https://www.pornhub.com/pornstars?performerType=amateur#subFilterListVideos","https://www.pornhub.com/pornstars?o=t&performerType=amateur#subFilterListVideos","https://www.pornhub.com/pornstars?o=r","https://www.pornhub.com/pornstars?o=ms#subFilterListVideos","https://www.pornhub.com/pornstars?o=ms&performerType=amateur"]
         base_url = "https://www.pornhub.com"
