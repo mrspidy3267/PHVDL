@@ -148,7 +148,6 @@ def get_link(db=None, collection_name=None):
         links = read_file_links()
         if links:
             logging.info(links)
-            time.sleep(3)
         for ph in fetch_models():
             logging.debug(f"Processing model: {ph}")
             urls.extend(extract_urls(ph))
