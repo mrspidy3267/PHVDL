@@ -127,6 +127,7 @@ def get_link(db=None, collection_name=None):
             print(ph)
             urls.extend(extract_urls(ph))
         urls.extend(fetch_video_links())
+        print(urls)
         length = len(urls)
         if db is not None:
             data = get_raw_url(db, collection_name)
