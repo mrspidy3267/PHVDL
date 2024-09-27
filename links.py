@@ -46,7 +46,7 @@ def extract_urls(url):
 
 
 
-def fetch_models():
+def :
     try:
         url = ["https://www.pornhub.com/pornstars?performerType=amateur#subFilterListVideos","https://www.pornhub.com/pornstars?o=mp&t=a&gender=female&performerType=amateur",'https://www.pornhub.com/pornstars?o=t#subFilterListVideos',"https://www.pornhub.com/pornstars?gender=female&performerType=amateur","https://www.pornhub.com/pornstars?gender=female","https://www.pornhub.com/pornstars?gender=female&performerType=pornstar","https://www.pornhub.com/pornstars?o=mv&performerType=pornstar#subFilterListVideos","https://www.pornhub.com/pornstars?performerType=amateur#subFilterListVideos","https://www.pornhub.com/pornstars?o=t&performerType=amateur#subFilterListVideos","https://www.pornhub.com/pornstars?o=r","https://www.pornhub.com/pornstars?o=ms#subFilterListVideos","https://www.pornhub.com/pornstars?o=ms&performerType=amateur"]
         base_url = "https://www.pornhub.com"
@@ -86,9 +86,10 @@ def get_link(db=None,collection_name=None,logging=None):
   print("Started link_gen")
   if True:
     urls = []
-    for ph in read_file_links():
+    print(read_file_links())
+    time.sleep(10)
+    for ph in fetch_models():
         print(ph)
-        time.sleep(3)
         urls.extend(extract_urls(ph))
     print("Some Recommended Videos")
     urls.extend(fetch_video_links())
@@ -118,7 +119,6 @@ def link_gen(db=None,collection_name=None,logging=None,Generator=None):
     logging.info(f"Total Videos:{length}")
     if db is not None:
       data = get_raw_url(db,collection_name)
-      print(data)
       urls = [url for url in urls if url not in data]
     filtered = len(urls)
     logging.info(f"Filtered Videos:{filtered}")
