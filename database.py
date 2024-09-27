@@ -50,5 +50,6 @@ def get_info(supabase, table_name, url):
 # Get all URLs from the Supabase table
 def get_raw_url(supabase, table_name):
     documents = find_documents(supabase, table_name)
+    print(documents)
     urls = [doc["URL"] for doc in documents]
     return urls
