@@ -53,19 +53,25 @@ def search_video_links(query):
 
 def extract_urls(url):
     try:
-        temp_file = "dump.txt"
-        os.system(f"yt-dlp --flat-playlist -j {url} > {temp_file}")
+        # Execute yt-dlp and capture the output
+        result = subprocess.run(
+            ["yt-dlp", "--flat-playlist", "-j", url], 
+            capture_output=True, text=True
+        )
+        # Split the result output into separate lines
+        lines = result.stdout.strip().splitlines()
+        
         urls = []
-        with open(temp_file) as file:
-            for line in file:
-                parts = line.strip().split()
-                for i in range(len(parts)):
-                    if '"url":' == parts[i]:
-                        urls.append(parts[i + 1].strip('"', ','))
-        os.remove(temp_file)
+        for line in lines:
+            data = json.loads(line)  # Load each line as JSON
+            if "url" in data:
+                urls.append(data["url"])  # Append the URLs
+            
         return urls
-    except Exception:
+    except Exception as e:
+        print(f"An error occurred: {e}")
         return []
+
 
 def fetch_models():
     try:
