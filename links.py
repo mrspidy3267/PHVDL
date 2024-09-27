@@ -1,4 +1,6 @@
 import requests
+import subprocess
+import json
 from bs4 import BeautifulSoup
 import os
 import random
