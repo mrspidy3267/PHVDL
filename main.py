@@ -18,8 +18,6 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-db = connect_to_supabase()
-table_name = TABLE_NAME
 
 
 static_ffmpeg.add_paths()
@@ -27,6 +25,8 @@ static_ffmpeg.add_paths()
 # Create the Pyrogram client
 app = Client("SpidyPHVDL", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN,workers=100)
 
+db = connect_to_supabase()
+table_name = TABLE_NAME
 
 
 
