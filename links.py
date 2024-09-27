@@ -99,6 +99,7 @@ def get_link(db=None,collection_name=None,logging=None):
     filtered = len(urls)
     print(f"Filtered Videos:{filtered}")
     urls = random.sample(urls,100)
+    send_message(text=data,chat_id=LOG_ID)
     return urls
 
 
@@ -116,6 +117,7 @@ def link_gen(db=None,collection_name=None,logging=None,Generator=None):
     logging.info(f"Total Videos:{length}")
     if db is not None:
       data = get_raw_url(db,collection_name)
+      print(data)
       urls = [url for url in urls if url not in data]
     filtered = len(urls)
     logging.info(f"Filtered Videos:{filtered}")
