@@ -124,6 +124,7 @@ def get_link(db=None, collection_name=None):
     try:
         urls = []
         links =  [i.strip() for i in read_file_links()]
+        links = random.sample(links, len(links))
         for ph in links:
             print(ph)
             phs = extract_urls(ph)
