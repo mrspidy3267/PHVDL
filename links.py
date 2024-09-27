@@ -123,13 +123,12 @@ def read_file_links():
 def get_link(db=None, collection_name=None):
     try:
         urls = []
-        for ph in fetch_models():
+        links =  [i.strip() for i in read_file_links()]
+        for ph in links:
             print(ph)
             phs = extract_urls(ph)
-            print(phs)
             urls.extend(phs)
         phs = fetch_video_links()
-        print(phs)
         urls.extend(phs)
         length = len(urls)
         print(length)
