@@ -116,24 +116,3 @@ def link_gen(db=None,collection_name=None,logging=None,Generator=None):
     logging.info("Splited Videos:"+str(len(url.split())))
     send_message(text=f"Total {length} Videos\nFiltered {filtered}\nNow Sent {len(urls.split())}",chat_id=LOG_ID)
 
-
-
-
-def auto_loop(db=None,collection_name=None,logging=None,Generator=None):
-       while True:
-           send_message("Link Gen Started",LOG_ID)
-           link_gen(db,collection_name,logging,Generator)
-           time.sleep(30)
-
-
-
-
-def start_link_gen(db=None,collection_name=None,logging=None,Generator=None): 
-    t = Thread(target=auto_loop,args=(db,collection_name,logging,Generator))
-    t.start()
-    print("Started Thread")
-    
-
-
-if __name__ == '__main__':
-    start_link_gen()
