@@ -70,13 +70,23 @@ def send_message(text,chat_id):
         print("Message Sent :"+str(response.json()['ok']))
 
 
+def read_file_links():
+    try:
+        with open("links.txt", 'r') as file:
+            lines = file.readlines()
+        return lines
+    except FileNotFoundError:
+        return f"Error: The file at {file_path} was not found."
+    except Exception as e:
+        return f"An error occurred: {e}"
+
 
 
 def get_link(db=None,collection_name=None,logging=None):
   print("Started link_gen")
   if True:
     urls = []
-    for ph in fetch_models():
+    for ph in read_file_links():
         print(ph)
         urls.extend(extract_urls(ph))
     print("Some Recommended Videos")
