@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import random
-import subprocess
 from config import *
 from database import get_raw_url
 
@@ -11,70 +10,69 @@ def fetch_video_links():
         proxy_url = "https://cf-proxy.mrspidyxd.workers.dev/?host="
         base_url = "https://www.pornhub.com"
         urls = [
-            "https://www.pornhub.com",
-            "https://www.pornhub.com/video?o=mv",
-            "https://www.pornhub.com/video?o=ht",
-            "https://www.pornhub.com/video?o=tr",
+            "https://www.pornhub.com", 
+            "https://www.pornhub.com/video?o=mv", 
+            "https://www.pornhub.com/video?o=ht", 
+            "https://www.pornhub.com/video?o=tr", 
             "https://www.pornhub.com/video?o=cm"
         ]
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
         }
-        
         response = requests.get(proxy_url + random.choice(urls), headers=headers)
-        response.raise_for_status()  # Check if request was successful
+        response.raise_for_status()  # Ensure we handle HTTP errors
         soup = BeautifulSoup(response.content, 'html.parser')
 
         return [
-            div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", base_url).split("&")[0]
-            for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')
+            div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", base_url).split("&")[0] 
+            for div in soup.find_all('div', class_='vidTitleWrapper') 
+            if div.find('a', class_='thumbnailTitle')
         ]
-    except requests.RequestException as e:
+    except Exception:
         return []
 
 def search_video_links(query):
     try:
-        proxy_url = "https://cf-proxy.mrspidyxd.workers.dev/?host="
+        base_url = "https://cf-proxy.mrspidyxd.workers.dev/?host="
         search_url = "https://www.pornhub.com/video/search?search="
         url = "https://www.pornhub.com"
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
         }
-        
-        response = requests.get(proxy_url + search_url + query, headers=headers)
+        response = requests.get(base_url + search_url + query, headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
 
         return [
-            div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", url).split("&")[0]
-            for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')
+            div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", url).split("&")[0] 
+            for div in soup.find_all('div', class_='vidTitleWrapper') 
+            if div.find('a', class_='thumbnailTitle')
         ]
-    except requests.RequestException as e:
+    except Exception:
         return []
 
 def extract_urls(url):
     try:
-        result = subprocess.run(['yt-dlp', '--flat-playlist', '-j', url], capture_output=True, text=True)
-        if result.returncode == 0:
-            output = result.stdout
-            urls = []
-            for line in output.strip().splitlines():
+        temp_file = "dump.txt"
+        os.system(f"yt-dlp --flat-playlist -j {url} > {temp_file}")
+        urls = []
+        with open(temp_file) as file:
+            for line in file:
                 parts = line.strip().split()
                 for i in range(len(parts)):
                     if '"url":' == parts[i]:
                         urls.append(parts[i + 1].strip('"', ','))
-            return urls
-        else:
-            return []
-    except Exception as e:
+        os.remove(temp_file)
+        return urls
+    except Exception:
         return []
 
 def fetch_models():
     try:
         urls = [
-            "https://www.pornhub.com/pornstars?performerType=amateur#subFilterListVideos",
-            "https://www.pornhub.com/pornstars?o=mp&t=a&gender=female&performerType=amateur",
-            'https://www.pornhub.com/pornstars?o=t#subFilterListVideos',
+            "https://www.pornhub.com/pornstars?performerType=amateur#subFilterListVideos", 
+            "https://www.pornhub.com/pornstars?o=mp&t=a&gender=female&performerType=amateur", 
+            'https://www.pornhub.com/pornstars?o=t#subFilterListVideos', 
             "https://www.pornhub.com/pornstars?gender=female&performerType=amateur"
         ]
         base_url = "https://www.pornhub.com"
@@ -87,7 +85,7 @@ def fetch_models():
             [base_url + href for href in hrefs if "/model/" in href or "/pornstar/" in href or "/channel/" in href],
             5
         )
-    except requests.RequestException as e:
+    except requests.RequestException:
         return []
 
 def send_message(text, chat_id):
@@ -98,11 +96,9 @@ def send_message(text, chat_id):
             'text': text
         }
         response = requests.post(url, data=payload)
-        
-        if response.status_code != 200:
-            # Handle unsuccessful response
-            pass
-    except Exception as e:
+        response.raise_for_status()  # Ensure we handle HTTP errors
+        print("Message Sent: " + str(response.json()['ok']))
+    except Exception:
         pass
 
 def read_file_links():
@@ -113,14 +109,18 @@ def read_file_links():
         return lines
     except FileNotFoundError:
         return []
-    except Exception as e:
+    except Exception:
         return []
 
 def get_link(db=None, collection_name=None):
     try:
         urls = []
+        # pr(read_file_links())  # Commented out since pr() is not defined
+        time.sleep(10)  # Consider using asyncio.sleep() for async compatibility
+
         for ph in fetch_models():
             urls.extend(extract_urls(ph))
+
         urls.extend(fetch_video_links())
         length = len(urls)
 
@@ -129,8 +129,8 @@ def get_link(db=None, collection_name=None):
             urls = [url for url in urls if url not in data]
 
         if urls:
-            urls = random.sample(urls, min(100, len(urls)))  # Ensure we don't sample more than available
-            send_message(text=data, chat_id=LOG_ID)
+            urls = random.sample(urls, min(100, len(urls)))  # Ensure we sample only available URLs
+            send_message(text=str(urls), chat_id=LOG_ID)
         return urls
-    except Exception as e:
-        return []
+    except Exception:
+        return
