@@ -37,8 +37,8 @@ def download_video(url, output_path='downloads'):
         print(f"Failed to download video from URL: {url}. Error: {e}")
 
 def upload_progress(current, total):
-    if current * 100 / total:.1f % 5 ==0 or current== total:
-        print(f"Uploading: {current * 100 / total:.1f}%")
+    if current == total:
+        print(f"Uploaded")
 
 async def upload_video(app, chat_id, file_path, thumbnail_path):
     try:
