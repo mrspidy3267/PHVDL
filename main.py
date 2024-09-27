@@ -7,13 +7,12 @@ import time
 from tools import *
 from config import *
 from database import *
-import static_ffmpeg
 from video import *
 from links import get_link,extract_urls
 
 # Configure logging
 logging.basicConfig(
-    filename='Auto-PHVDL.log',
+    filename='PHVDL.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
