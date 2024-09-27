@@ -115,19 +115,15 @@ def read_file_links():
 def get_link(db=None, collection_name=None):
     try:
         urls = []
-        # pr(read_file_links())  # Commented out since pr() is not defined
-        time.sleep(10)  # Consider using asyncio.sleep() for async compatibility
-
+        print(read_file_links())
         for ph in fetch_models():
+            print(ph)
             urls.extend(extract_urls(ph))
-
         urls.extend(fetch_video_links())
         length = len(urls)
-
         if db is not None:
             data = get_raw_url(db, collection_name)
             urls = [url for url in urls if url not in data]
-
         if urls:
             urls = random.sample(urls, min(100, len(urls)))  # Ensure we sample only available URLs
             send_message(text=str(urls), chat_id=LOG_ID)
