@@ -35,21 +35,8 @@ app = Client("SpidyPHVDL", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN
 async def main():
     async with app:
         video_urls = []
-        if os.path.isfile("links.txt"):
-             with open("links.txt") as file:
-                  urls = file.readlines()
-                  logging.info(urls)
-                  for video_url in urls:
-                       url = extract_urls(video_url)
-                       video_urls.append(url)
-                       if len(video_urls) >= 100:
-                            break  
-        else:
-             video_urls = get_link(db,table_name)
-
+        video_urls = get_link(db,table_name)
         video_urls = video_urls[:100]
-        logging.info(video_urls)
-        exit()
         uploading = []
         for video_url in video_urls:
             logging.info(video_url)
