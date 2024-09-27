@@ -145,9 +145,6 @@ def get_link(db=None, collection_name=None):
     logging.info("Started link_gen")
     try:
         urls = []
-        links = read_file_links()
-        if links:
-            logging.info(links)
         for ph in fetch_models():
             logging.debug(f"Processing model: {ph}")
             urls.extend(extract_urls(ph))
