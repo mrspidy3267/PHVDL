@@ -25,9 +25,6 @@ static_ffmpeg.add_paths()
 # Create the Pyrogram client
 app = Client("SpidyPHVDL", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN,workers=100)
 
-db = connect_to_supabase()
-table_name = TABLE_NAME
-
 
 
 
@@ -35,6 +32,8 @@ table_name = TABLE_NAME
 async def main():
     async with app:
         logging.info("Bot Started")
+        db = connect_to_supabase()
+        table_name = TABLE_NAME
         video_urls = []
         video_urls = get_link(db,table_name)
         video_urls = video_urls[:100]
