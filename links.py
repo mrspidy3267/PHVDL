@@ -88,6 +88,7 @@ def get_link(db=None,collection_name=None,logging=None):
     urls = []
     for ph in read_file_links():
         print(ph)
+        time.sleep(3)
         urls.extend(extract_urls(ph))
     print("Some Recommended Videos")
     urls.extend(fetch_video_links())
