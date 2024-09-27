@@ -35,6 +35,7 @@ async def main():
         video_urls = []
         video_urls = get_link(db,table_name)
         video_urls = video_urls[:100]
+        print(video_urls)
         uploading = []
         for video_url in video_urls:
             logging.info(video_url)
