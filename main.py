@@ -18,9 +18,8 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-database_name = "Spidydb"
-db = connect_to_mongodb(DATABASE, database_name)
-collection_name = AUTO_COLLECTION_NAME
+db = connect_to_supabase()
+TABLE_NAME = TABLE_NAME
 
 
 static_ffmpeg.add_paths()
@@ -46,7 +45,7 @@ async def main():
                        if len(video_urls) >= 100:
                             break  
         else:
-             video_urls = get_link(db,collection_name)
+             video_urls = get_link(db,table_name)
 
         video_urls = video_urls[:100]
         uploading = []
@@ -81,7 +80,7 @@ async def main():
                                             "File_Name": exact_file_path.split("/", 2)[-1],
                                             "CHAT_ID": DRIVE_ID,    
                                          }
-                                        insert_document(db, collection_name, result)
+                                        insert_document(db, table_name, result)
                                         os.remove(exact_file_path)
                                         os.remove(thumbnail_path)
                 else:
