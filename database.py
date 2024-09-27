@@ -17,7 +17,7 @@ def connect_to_supabase():
 def insert_document(supabase, table_name, document):
     try:
         data = supabase.table(table_name).insert(document).execute()
-        print(f"Inserted document with data: {data.data}")
+        print(f"Inserted document with data")
     except Exception as e:
         print(f"Error: Could not insert document.\n{e}")
 
