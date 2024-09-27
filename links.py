@@ -125,8 +125,7 @@ def get_link(db=None, collection_name=None):
             data = get_raw_url(db, collection_name)
             urls = [url for url in urls if url not in data]
         if urls:
-            urls = random.sample(urls, min(100, len(urls)))  # Ensure we sample only available URLs
-            send_message(text=str(urls), chat_id=LOG_ID)
+            urls = random.sample(urls, min(100, len(urls)))
         return urls
     except Exception:
         return
