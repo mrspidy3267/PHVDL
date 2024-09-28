@@ -9,6 +9,9 @@ from config import *
 from database import *
 from video import *
 from links import get_link,extract_urls
+import static_ffmpeg
+
+
 
 # Configure logging
 logging.basicConfig(
@@ -24,6 +27,7 @@ logging.basicConfig(
 app = Client("SpidyPHVDL", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN,workers=100)
 
 
+static_ffmpeg.add_paths()
 
 
 
