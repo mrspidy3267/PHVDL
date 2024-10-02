@@ -12,28 +12,27 @@ def download_progress_hook(d):
     elif d['status'] == 'finished':
         print(f"Download complete: {d['filename']}")
 
+
 def download_video(url, output_path='downloads'):
+    min_views=10000
+    min_likes=1000
     try:
-        ydl_opts = {
-            'format': 'bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480][ext=mp4]',
-            'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
-            'external_downloader': 'aria2c',
-            'external_downloader_args': [
-                '-j', '16',
-                '-x', '16',  # Number of connections per server
-                '-s', '16',  # Number of connections overall
-                '-k', '10M'   # Piece size
-            ],
-            
-            'playlistend': 100,  # Limit the number of videos to download to 100
-            'writethumbnail': True,  # Download the thumbnail
-            'progress_hooks': [download_progress_hook],
-            
-        }
-        with YoutubeDL(ydl_opts) as ydl:
-            ydl.download([url])
-        print(f"Video downloaded successfully from URL: {url}")
-        return ydl_opts['outtmpl']
+        with yt_dlp.YoutubeDL({'skip_download': True, 'quiet': True, 'dump_single_json': True}) as ydl:
+            info = ydl.extract_info(url, download=False)
+            views, likes = info.get('view_count', 0), info.get('like_count', 0)
+        if views >= min_views and likes >= min_likes:
+            print(f"Downloading: {info['title']} (Views: {views}, Likes: {likes})")
+            ydl_opts = {
+                'format': 'bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480][ext=mp4]',
+                'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
+                'external_downloader': 'aria2c',
+                'external_downloader_args': ['-j', '16', '-x', '16', '-s', '16', '-k', '10M'],
+                'playlistend': 100, 'writethumbnail': True, 'progress_hooks': [download_progress_hook],
+            }
+            yt_dlp.YoutubeDL(ydl_opts).download([url])
+            print(f"Video downloaded successfully from URL: {url}")
+        else:
+            print(f"Skipping: {info['title']} (Views: {views}, Likes: {likes})")
     except Exception as e:
         print(f"Failed to download video from URL: {url}. Error: {e}")
 
