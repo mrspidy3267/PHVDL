@@ -17,7 +17,7 @@ def download_video(url, output_path='downloads'):
     min_views=10000
     min_likes=1000
     try:
-        with yt_dlp.YoutubeDL({'skip_download': True, 'quiet': True, 'dump_single_json': True}) as ydl:
+        with YoutubeDL({'skip_download': True, 'quiet': True, 'dump_single_json': True}) as ydl:
             info = ydl.extract_info(url, download=False)
             views, likes = info.get('view_count', 0), info.get('like_count', 0)
         if views >= min_views and likes >= min_likes:
@@ -29,7 +29,7 @@ def download_video(url, output_path='downloads'):
                 'external_downloader_args': ['-j', '16', '-x', '16', '-s', '16', '-k', '10M'],
                 'playlistend': 100, 'writethumbnail': True, 'progress_hooks': [download_progress_hook],
             }
-            yt_dlp.YoutubeDL(ydl_opts).download([url])
+            YoutubeDL(ydl_opts).download([url])
             print(f"Video downloaded successfully from URL: {url}")
         else:
             print(f"Skipping: {info['title']} (Views: {views}, Likes: {likes})")
