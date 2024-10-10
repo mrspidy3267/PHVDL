@@ -137,7 +137,7 @@ def get_link(db=None, collection_name=None):
             data = get_raw_url(db, collection_name)
             urls = [url for url in urls if url not in data]
         if urls:
-            urls = random.sample(urls, min(200, len(urls)))
+            urls = random.sample(urls, min(500, len(urls)))
         return urls
     except Exception:
         return
